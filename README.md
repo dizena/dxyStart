@@ -1,8 +1,11 @@
 
 dxyStart介绍
-1，官方网站API
-   http://www.dizena.com/docapi
 
+1，官方网站API
+
+   http://www.dizena.com/docapi
+   
+   
 2，技术汇总
 
 2-1、后端
@@ -39,6 +42,7 @@ dxyStart介绍
     日期控件： bootstrap-datetimepicker
 
 2-3、平台
+
     服务器中间件：支持应用服务器中间件 有Tomcat、Glassfish、Jboss、WebLogic、WebSphere。
     
     数据库支持：MySQL、Oracle、Sql Server、Sqllite等
