@@ -1,0 +1,5 @@
+/**
+ *@info jsJiaMi(str)
+ *@return string
+ */
+eval(function(p,a,c,k,e,d){e=function(c){return(c<a?"":e(parseInt(c/a)))+((c=c%a)>35?String.fromCharCode(c+29):c.toString(36))};if(!''.replace(/^/,String)){while(c--)d[e(c)]=k[c]||e(c);k=[function(e){return d[e]}];e=function(){return'\\w+'};c=1;};while(c--)if(k[c])p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c]);return p;}('o t(5){7 e="u+/=";7 g="";7 d,a,9="";7 j,h,f,b="";7 i=0;w{d=5.p(i++);a=5.p(i++);9=5.p(i++);j=d>>2;h=((d&3)<<4)|(a>>4);f=((a&v)<<2)|(9>>6);b=9&y;m(s(a)){f=b=r}x m(s(9)){b=r}g=g+e.l(j)+e.l(h)+e.l(f)+e.l(b);d=a=9="";j=h=f=b=""}C(i<5.8);n g}o q(5){7 8=5.8;7 c=[];D(7 i=0;i<B(8/2);i++){7 k=5[2*i];c[2*i]=5[2*i+1];c[2*i+1]=k}m(8%2!=0){c[8-1]=5[8-1]}n c}o A(5){7 k=t(5);n q(k).z("")}',40,40,'|||||input||var|length|chr3|chr2|enc4|ary|chr1|keyStr|enc3|output|enc2||enc1|tmp|charAt|if|return|function|charCodeAt|dschg|64|isNaN|encode64|ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789|15|do|else|63|join|jsJiaMi|parseInt|while|for'.split('|'),0,{}))

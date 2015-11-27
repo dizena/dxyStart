@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+    
+	<!-- echcahe缓存 -->
+	<bean id="shiroEhcacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+		<property name="cacheManagerConfigFile" value="classpath:ehcache.xml" />
+	</bean>
+
+	<!-- 数据源 -->
+	<bean id="userRealm" class="com.aat.dxfy.base.web.realm.MyRealm">
+		<property name="cachingEnabled" value="false" />
+	</bean>
+	
+	<!-- sessionID模式 -->
+	<bean id="sessionIdCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+        <constructor-arg value="sid"/>
+        <property name="httpOnly" value="true"/>
+        <property name="maxAge" value="-1"/>
+    </bean>
+    
+    <!-- sessionDAO -->
+    <bean id="sessionDAO" class="org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO">
+    	 <property name="activeSessionsCacheName" value="shiro-activeSessionCache" />
+    </bean>
+	
+	<!-- session管理配置 -->
+	<bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+        <property name="globalSessionTimeout" value="1800000"/>
+        <property name="sessionIdCookie" ref="sessionIdCookie"/>
+        <property name="sessionDAO" ref="sessionDAO"/>
+    </bean>
+    
+	<!-- 安全管理 -->
+	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<property name="realm" ref="userRealm" />
+		<property name="cacheManager" ref="shiroEhcacheManager" />
+		<property name="sessionManager" ref="sessionManager"/>
+	</bean>
+	
+	<!-- 强制退出过滤器 -->
+    <bean id="forceLogoutFilter" class="com.aat.dxfy.base.web.filter.ForceLogoutFilter"/>
+    
+    <!-- 用户并发登录过滤 -->
+    <bean id="kickoutSessionControlFilter" class="com.aat.dxfy.base.web.filter.KickoutSessionControlFilter">
+        <property name="cacheManager" ref="shiroEhcacheManager"/>
+        <property name="sessionManager" ref="sessionManager"/>
+
+        <property name="kickoutAfter" value="false"/>
+        <property name="maxSession" value="2"/>
+        <property name="kickoutUrl" value="/login?kickout=1"/>
+    </bean>
+    
+	<!-- 过滤器 -->
+	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+		<property name="securityManager" ref="securityManager" />
+	</bean>
+	
+	<!-- 自定义的过滤器 -->
+	<bean id="filterChainManager" class="com.aat.dxfy.base.assist.modules.CustomDefaultFilterChainManager">
+        <property name="loginUrl" value="/login"/>
+        <property name="unauthorizedUrl" value="/none"/>
+
+        <property name="customFilters">
+            <util:map>
+                <entry key="forceLogout" value-ref="forceLogoutFilter"/>
+                <entry key="kickout" value-ref="kickoutSessionControlFilter"/>
+            </util:map>
+        </property>
+        <property name="defaultFilterChainDefinitions">
+            <value>
+                /master/**=authc
+				/login=anon
+				/** = forceLogout,kickout
+            </value>
+        </property>
+    </bean>
+    
+    <bean id="filterChainResolver" class="com.aat.dxfy.base.assist.modules.CustomPathMatchingFilterChainResolver">
+        <property name="customDefaultFilterChainManager" ref="filterChainManager"/>
+    </bean>
+    
+    <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+    	<property name="targetMethod" value="setFilterChainResolver"/>
+        <property name="targetObject" ref="shiroFilter"/>
+        <property name="arguments" ref="filterChainResolver"/>
+    </bean>
+
+	<!-- Spring Shiro 集成 -->
+	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
+    
+	<!--  end  -->
+	
+	<!-- spring 代理过滤器
+	
+		2    
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+		<property name="securityManager" ref="securityManager" />
+		<property name="loginUrl" value="/login"/>
+		<property name="filters">
+            <util:map>
+                <entry key="forceLogout" value-ref="forceLogoutFilter"/>
+                <entry key="kickout" value-ref="kickoutSessionControlFilter"/>
+            </util:map>
+        </property>
+		<property name="filterChainDefinitions">
+			<value>
+				/master/**=authc
+				/login=anon
+				/** = forceLogout,kickout
+			</value>
+		</property>
+	</bean>
+	 -->
+	
+	
+
+</beans>

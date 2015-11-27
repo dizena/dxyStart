@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aat.dxfy.base.dao.OuthTokenDao">
+
+	<!-- 表 -->
+	<sql id="Table_Name">
+		base_oauth_token
+	</sql>
+	<!-- 字段 -->
+	<sql id="Base_Column_List">
+		id,companyId,userId,startTime,eename,flag
+	</sql>
+	
+	<!-- 新增 -->
+	<insert id="addBean" parameterType="OuthToken">
+		INSERT INTO
+		<include refid="Table_Name" />
+		(<include refid="Base_Column_List" />) VALUES 
+		(#{id},#{companyId},#{userId},#{startTime},#{eename},#{flag})
+	</insert>
+	
+	<!-- 修改 -->
+	<update id="updateBean" parameterType="OuthToken">
+		UPDATE
+		<include refid="Table_Name" />
+		<set> 
+			<if test="companyId !=  null">companyId = #{companyId},</if>
+			<if test="userId !=  null">userId = #{userId},</if>
+			<if test="startTime !=  null ">startTime =#{startTime},</if>
+			<if test="eename !=  null">eename = #{eename},</if>
+			<if test="flag !=  null">flag = #{flag},</if>
+		</set>
+		WHERE id = #{id}
+	</update>
+	
+	<!-- 删除 -->
+	<delete id="deleteBean" parameterType="java.lang.String">
+		DELETE FROM <include refid="Table_Name"/> WHERE id = #{id}
+	</delete>
+	
+	<!-- 查询单个 -->
+	<select id="queryBean" parameterType="java.lang.String" resultType="OuthToken">
+		SELECT <include refid="Base_Column_List"/> FROM
+		<include refid="Table_Name"/>WHERE id = #{id}
+	</select>
+	
+	<!-- 查询单个 -->
+	<select id="queryBeanCUID" parameterType="java.util.Map" resultType="OuthToken">
+		SELECT <include refid="Base_Column_List"/> FROM
+		<include refid="Table_Name"/> 
+		WHERE companyId = #{companyId} AND userId=#{userId}
+	</select>
+	
+	
+	<sql id="condition">
+		<where>
+			<if test="eename !=  null">AND eename LIKE CONCAT('%',#{eename},'%') </if>
+			<if test="companyId !=  null">AND companyId = #{companyId} </if>
+			<if test="userId !=  null">AND userId =#{userId}  </if>
+		</where>
+	</sql>
+	
+	<sql id="splitPages">
+		<if test="sortFiled !=null and sortFiled!='' ">
+			ORDER BY ${sortFiled}
+			<if test="direction!=null">
+				${direction}
+			</if>
+		</if>
+		<if test="start!=null and perpage!=null">
+			LIMIT #{start},#{perpage}
+		</if>
+	</sql>
+	
+	<!-- 查询所有 -->
+	<select id="queryAll" parameterType="java.util.Map" resultType="OuthToken">
+		SELECT <include refid="Base_Column_List"/> FROM
+		<include refid="Table_Name"/>
+		<include refid="condition"/>
+		<include refid="splitPages"/>
+	</select>
+	
+	
+	<!-- 查询总数 -->
+	<select id="queryAllCount" parameterType="java.util.Map" resultType="java.lang.Long">
+		SELECT COUNT(*) FROM <include refid="Table_Name"/>
+		<include refid="condition"/>
+	</select>
+	
+</mapper>

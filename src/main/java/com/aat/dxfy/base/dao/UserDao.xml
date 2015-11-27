@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aat.dxfy.base.dao.UserDao">
+
+	<!-- 表 -->
+	<sql id="Table_Name">
+		base_user
+	</sql>
+	<!-- 字段 -->
+	<sql id="Base_Column_List">
+		id,username,passwd,salt,roles,
+		auths,locked,regTime,nickname,sex,
+		icon,location,flag,token,email,
+		phone,truename,age,minzu,cardid,
+		addressNow,addressHome,addressJob,salaryRange,systime,
+		qt1,answer1,qt2,answer2,num01,
+		str01,str02,str03
+	</sql>
+
+	<!-- 新增 -->
+	<insert id="addBean" parameterType="User">
+		INSERT INTO
+		<include refid="Table_Name" />
+		(
+		<include refid="Base_Column_List" />
+		) VALUES
+		(#{id},#{username},#{passwd},#{salt},#{roles},
+		#{auths},#{locked},#{regTime},#{nickname},#{sex},
+		#{icon},#{location},#{flag},#{token},#{email},
+		#{phone},#{truename},#{age},#{minzu},#{cardid},
+		#{addressNow},#{addressHome},#{addressJob},#{salaryRange},#{systime},
+		#{qt1},#{answer1},#{qt2},#{answer2},#{num01},
+		#{str01},#{str02},#{str03}
+		)
+	</insert>
+
+	<!-- 修改 -->
+	<update id="updateBean" parameterType="User">
+		UPDATE
+		<include refid="Table_Name" />
+		<set>
+			<include refid="updateSQL" />
+		</set>
+		WHERE id = #{id}
+	</update>
+
+	<!-- 删除 -->
+	<delete id="deleteBean" parameterType="java.lang.String">
+		DELETE FROM
+		<include refid="Table_Name" />
+		WHERE id = #{id}
+	</delete>
+
+	<!-- 查询单个 -->
+	<select id="queryBean" parameterType="java.lang.String"
+		resultType="User">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM
+		<include refid="Table_Name" />
+		WHERE id = #{id}
+	</select>
+
+	<!-- 用户名，电话，邮箱 查询 -->
+	<select id="queryUser" parameterType="java.lang.String"
+		resultType="User">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM
+		<include refid="Table_Name" />
+		WHERE username = #{key} OR email = #{key} OR phone=#{key} 
+	</select>
+
+	<!-- 查询所有 -->
+	<select id="queryAll" parameterType="java.util.Map" resultType="User">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM
+		<include refid="Table_Name" />
+		<include refid="condition" />
+		<include refid="splitPages" />
+	</select>
+
+	<!-- 查询所有 -->
+	<select id="queryAllMap" parameterType="java.util.Map"
+		resultType="java.util.Map">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM
+		<include refid="Table_Name" />
+		<include refid="condition" />
+		<include refid="splitPages" />
+	</select>
+
+	<!-- 查询总数 -->
+	<select id="queryAllCount" parameterType="java.util.Map"
+		resultType="java.lang.Long">
+		SELECT COUNT(*) FROM
+		<include refid="Table_Name" />
+		<include refid="condition" />
+	</select>
+
+	<sql id="updateSQL">
+
+		<if test="username != null">username = #{username},</if>
+		<if test="passwd !=  null ">passwd =#{passwd},</if>
+		<if test="salt !=  null">salt = #{salt},</if>
+		<if test="roles !=  null">roles = #{roles},</if>
+
+		<if test="auths !=  null">auths = #{auths},</if>
+		<if test="locked !=  null">locked = #{locked},</if>
+		
+		<if test="nickname != null">nickname = #{nickname},</if>
+		<if test="sex !=  null ">sex =#{sex},</if>
+
+		<if test="icon !=  null">icon = #{icon},</if>
+		<if test="location !=  null">location = #{location},</if>
+		<if test="flag !=  null">flag = #{flag},</if>
+		<if test="token != null">token=#{token},</if>
+		<if test="email != null">email=#{email},</if>
+
+		<if test="phone !=  null">phone = #{phone},</if>
+		<if test="truename !=  null">truename = #{truename},</if>
+		<if test="age !=  null">age = #{age},</if>
+		<if test="minzu != null">minzu=#{minzu},</if>
+		<if test="cardid != null">cardid=#{cardid},</if>
+
+		<if test="addressNow !=  null">addressNow = #{addressNow},</if>
+		<if test="addressHome !=  null">addressHome = #{addressHome},</if>
+		<if test="addressJob !=  null">addressJob = #{addressJob},</if>
+		<if test="salaryRange != null">salaryRange=#{salaryRange},</if>
+		<if test="systime != null">systime=#{systime},</if>
+
+		<if test="qt1 !=  null">qt1 = #{qt1},</if>
+		<if test="answer1 !=  null">answer1 = #{answer1},</if>
+		<if test="qt2 !=  null">qt2 = #{qt2},</if>
+		<if test="answer2 != null">answer2=#{answer2},</if>
+		<if test="num01 != null">num01=#{num01},</if>
+
+		<if test="str01 !=  null">str01 = #{str01},</if>
+		<if test="str02 != null">str02=#{str02},</if>
+		<if test="str03 != null">str03=#{str03},</if>
+
+	</sql>
+
+	<sql id="condition">
+		<where>
+			<if test="username !=  null">AND username LIKE CONCAT('%',#{username},'%') </if>
+			<if test="roles !=  null">AND roles LIKE CONCAT('%',#{roles},'%') </if>
+			<if test="auths !=  null">AND auths LIKE CONCAT('%',#{auths},'%') </if>
+			<if test="locked != null">AND locked = #{locked} </if>
+			
+			<if test="email !=  null">AND email LIKE CONCAT('%',#{email},'%') </if>
+			<if test="phone !=  null">AND phone LIKE CONCAT('%',#{phone},'%') </if>
+			<if test="cardid !=  null">AND cardid LIKE CONCAT('%',#{cardid},'%') </if>
+		</where>
+	</sql>
+
+	<!-- mysql 分页 -->
+	<sql id="splitPages">
+		<if test="sortFiled != null">
+			ORDER BY ${sortFiled}
+		</if>
+		<if test="sortFiled != null and direction != null ">
+			${direction}
+		</if>
+		<if test="start!=null">
+			LIMIT #{start}
+		</if>
+		<if test="start!=null and perpage!=null">
+			,#{perpage}
+		</if>
+	</sql>
+	
+	<!-- sqlserver 分页 -->
+	<sql id="splitPagesStart">
+		<if test="sortFiled !=null and direction!=null">
+			SELECT A.*  FROM (SELECT ROW_NUMBER() OVER (ORDER BY ${sortFiled} ${direction}) AS RowNumber,*  FROM (
+		</if>
+	</sql>
+	
+	<sql id="splitPagesEnd">
+		<if test="sortFiled !=null  and direction!=null">
+		 	)AS B  ) AS A 
+		 	<if test="start!=null and end!=null">
+				WHERE A.RowNumber <![CDATA[ > ]]> #{start} AND A.RowNumber <![CDATA[ <= ]]> #{end}
+			</if>
+		</if>
+	</sql>
+
+
+</mapper>

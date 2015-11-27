@@ -1,0 +1,57 @@
+<configuration>
+
+	<appender name="FILE"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>
+				logs/dxyStart-%d{yyyyMMdd}.log
+			</fileNamePattern>
+			<maxHistory>10</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger - %msg%n</pattern>
+		</encoder>
+	</appender>
+	
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>
+				%d{yyyy-MM-dd HH:mm:ss.SSS} %logger - %msg%n
+			</pattern>
+		</encoder>
+	</appender>
+	
+	
+	<logger name="com.aat.dxfy" level="INFO">
+		<appender-ref ref="STDOUT" />
+	</logger>
+	
+	
+	<!-- 以下出错写入文件 -->
+	<logger name="org.apache.shiro" level="ERROR">
+		<appender-ref ref="FILE" />
+	</logger>
+	
+	<logger name="org.apache.ibatis" level="ERROR">
+		<appender-ref ref="FILE" />
+	</logger>
+	
+	<logger name="org.mybatis.spring" level="ERROR" >
+		<appender-ref ref="FILE" />
+	</logger>
+	
+    <logger name="org.springframework" level="ERROR" >
+		<appender-ref ref="FILE" />
+	</logger>
+	
+	<logger name="com.alibaba.druid" level="ERROR">
+		<appender-ref ref="FILE" />
+	</logger>
+	<logger name="net.sf.ehcache" level="ERROR">
+		<appender-ref ref="FILE" />
+	</logger>
+	<logger name="weibo4j.http.HttpClient" level="ERROR">
+		<appender-ref ref="FILE" />
+	</logger>
+
+</configuration>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"
+	version="2.0">
+
+	<tlib-version>1.0</tlib-version>
+	<short-name>dxy</short-name>
+	<uri>http://www.dizena.com/api/dxyfun</uri>
+	
+	<function>
+		<description>XSS转换</description>
+		<name>escapeXSS</name>
+		<function-class>com.aat.dxfy.base.web.taglib.DxyFun</function-class>
+		<function-signature>java.lang.String escapeXSS(java.lang.String)</function-signature>
+	</function>
+
+	<function>
+		<description>科学计数</description>
+		<name>addComma</name>
+		<function-class>com.aat.dxfy.base.web.taglib.DxyFun</function-class>
+		<function-signature>java.lang.String addComma(java.lang.String)</function-signature>
+	</function>
+	
+	<function>
+		<description>科学技术，两位小数</description>
+		<name>addCommaF</name>
+		<function-class>com.aat.dxfy.base.web.taglib.DxyFun</function-class>
+		<function-signature>java.lang.String addCommaF(java.lang.String)</function-signature>
+	</function>
+	
+	 <function>
+        <description>用户身份</description>
+        <name>principal</name>
+        <function-class>com.aat.dxfy.base.web.taglib.DxyFun</function-class>
+        <function-signature>java.lang.String principal(org.apache.shiro.session.Session)</function-signature>
+    </function>
+    
+    <function>
+        <description>用户时长</description>
+        <name>onlineTime</name>
+        <function-class>com.aat.dxfy.base.web.taglib.DxyFun</function-class>
+        <function-signature>java.lang.String onlineTime(org.apache.shiro.session.Session)</function-signature>
+    </function>
+    
+    <function>
+        <description>用户是否强制退出</description>
+        <name>isForceLogout</name>
+        <function-class>com.aat.dxfy.base.web.taglib.DxyFun</function-class>
+        <function-signature>java.lang.Boolean isForceLogout(org.apache.shiro.session.Session)</function-signature>
+    </function>
+	
+</taglib>  

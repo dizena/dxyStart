@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aat.dxfy.base.dao.UrlauthDao">
+
+	<!-- 表 -->
+	<sql id="Table_Name">
+		base_uriauth
+	</sql>
+	<!-- 字段 -->
+	<sql id="Base_Column_List">
+		id,uname,url,roles,auths
+	</sql>
+
+	<!-- 新增 -->
+	<insert id="addBean" parameterType="Urlauth">
+		INSERT INTO
+		<include refid="Table_Name" />
+		(
+		<include refid="Base_Column_List" />
+		) VALUES
+		(#{id},#{uname},#{url},#{roles},#{auths})
+	</insert>
+
+	<!-- 修改 -->
+	<update id="updateBean" parameterType="Urlauth">
+		UPDATE
+		<include refid="Table_Name" />
+		<set>
+			<include refid="updateSQL"/>
+		</set>
+		WHERE id = #{id}
+	</update>
+
+	<!-- 删除 -->
+	<delete id="deleteBean" parameterType="java.lang.String">
+		DELETE FROM
+		<include refid="Table_Name" />
+		WHERE id = #{id}
+	</delete>
+
+	<!-- 查询单个 -->
+	<select id="queryBean" parameterType="java.lang.String" resultType="Urlauth">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM
+		<include refid="Table_Name" />
+		WHERE id = #{id}
+	</select>
+
+	<!-- 查询所有 -->
+	<select id="queryAll" parameterType="java.util.Map" resultType="Urlauth">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM
+		<include refid="Table_Name" />
+		<include refid="condition" />
+		<include refid="splitPages" />
+	</select>
+
+
+	<!-- 查询总数 -->
+	<select id="queryAllCount" parameterType="java.util.Map"
+		resultType="java.lang.Long">
+		SELECT COUNT(*) FROM
+		<include refid="Table_Name" />
+		<include refid="condition" />
+	</select>
+
+	<sql id="updateSQL">
+		<if test="uname != null">uname = #{uname},</if>
+		<if test="url !=  null ">url =#{url},</if>
+		<if test="roles !=  null">roles = #{roles},</if>
+		<if test="auths !=  null">auths = #{auths},</if>
+	</sql>
+
+	<sql id="condition">
+		<where>
+			<if test="uname !=  null">AND uname LIKE CONCAT('%',#{uname},'%') </if>
+			<if test="url != null">AND url = #{url} </if>
+			<if test="roles != null">AND roles = #{roles} </if>
+			<if test="auths != null">AND auths = #{auths} </if>
+		</where>
+	</sql>
+
+	<sql id="splitPages">
+		<if test="sortFiled != null">
+			ORDER BY ${sortFiled}
+		</if>
+		<if test="sortFiled != null and direction != null ">
+			${direction}
+		</if>
+		<if test="start!=null">
+			LIMIT #{start}
+		</if>
+		<if test="start!=null and perpage!=null">
+			,#{perpage}
+		</if>
+	</sql>
+
+	
+
+</mapper>

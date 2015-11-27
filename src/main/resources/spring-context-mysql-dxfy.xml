@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="
+     http://www.springframework.org/schema/context 
+     http://www.springframework.org/schema/context/spring-context.xsd
+     http://www.springframework.org/schema/beans 
+     http://www.springframework.org/schema/beans/spring-beans.xsd
+     http://www.springframework.org/schema/jdbc 
+     http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
+     http://www.springframework.org/schema/tx 
+     http://www.springframework.org/schema/tx/spring-tx.xsd
+     http://www.springframework.org/schema/aop 
+     http://www.springframework.org/schema/aop/spring-aop.xsd
+     http://www.springframework.org/schema/task 
+     http://www.springframework.org/schema/task/spring-task.xsd">
+     
+	<context:annotation-config />
+	
+	<!-- 自动扫描目录(自动注入) -->
+	<context:component-scan base-package="com.aat.dxfy.**.**" >
+		<context:exclude-filter type="annotation" expression="org.springframework.context.annotation.Configuration"/>
+	</context:component-scan>
+	
+	<!-- 开启AOP监听 只对当前配置文件有效 -->
+	<aop:aspectj-autoproxy expose-proxy="true"  proxy-target-class="true" />
+
+	<!-- 数据源 -->
+	<bean id="dataSourceDxfy" class="com.alibaba.druid.pool.DruidDataSource"
+		init-method="init" destroy-method="close">
+		
+		 <!-- 基本属性 url、user、password -->
+		<property name="driverClassName" value="${dxfy.driver}" />
+		<property name="url" value="${dxfy.url}" />
+		<property name="username" value="${dxfy.username}" />
+		<property name="password" value="${dxfy.password}" />
+		
+		<!-- 配置初始化大小、最小、最大 -->
+		<property name="initialSize" value="1" />
+		<property name="minIdle" value="1" />
+		<property name="maxActive" value="30" />
+		
+		<!-- 获取连接最大等待时间 -->
+		<property name="maxWait" value="60000" />
+		<!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+		<property name="timeBetweenEvictionRunsMillis" value="60000" />
+		<!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+		<property name="minEvictableIdleTimeMillis" value="300000" />
+		
+		<property name="validationQuery" value="SELECT 'x'" />
+		<property name="testOnBorrow" value="false" />
+		<property name="testOnReturn" value="false" />
+		<property name="testWhileIdle" value="true" />
+		
+
+		<!-- 打开removeAbandoned功能 -->
+		<property name="removeAbandoned" value="true" />
+		<!-- 1800秒，也就是30分钟 -->
+		<property name="removeAbandonedTimeout" value="1800" />
+		<!-- 关闭abanded连接时输出错误日志 -->
+		<property name="logAbandoned" value="true" />
+		
+		<!-- 打开PSCache，并且指定每个连接上PSCache的大小 -->
+      	<property name="poolPreparedStatements" value="false" />
+      	<property name="maxPoolPreparedStatementPerConnectionSize" value="30" />
+
+		<!-- 监控数据库 -->
+		<property name="filters" value="stat,wall" />
+
+	</bean>
+
+	<!-- 定义SqlSessionFactory -->
+	<bean id="sqlSessionFactoryDxfy" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSourceDxfy" />
+		<property name="typeAliasesPackage"
+			 value="com.aat.dxfy.base.bean" />
+	</bean>
+
+	<!-- 浏览自动注入mapper的dao的包 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.aat.dxfy.**.dao" />
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactoryDxfy" />
+	</bean>
+
+	<!-- 事务管理, 全局使用JtaTransactionManager -->
+	<bean id="transactionManagerDxfy" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSourceDxfy" />
+	</bean>
+
+	<!-- AOP配置数据事务管理，也可以采用注解方式，也可以写在LoggerAspect里面 -->
+	<tx:advice id="txAdviceDxfy" transaction-manager="transactionManagerDxfy">
+		<tx:attributes>
+			<tx:method name="query*" read-only="true" />
+			<tx:method name="get*" read-only="true" />
+			<tx:method name="add*" propagation="REQUIRED" />
+			<tx:method name="insert*" propagation="REQUIRED" />
+			<tx:method name="delete*" propagation="REQUIRED" />
+			<tx:method name="update*" propagation="REQUIRED" />
+		</tx:attributes>
+	</tx:advice>
+
+	<aop:config expose-proxy="true" proxy-target-class="true">
+		<aop:pointcut id="serviceOperationDxfy" expression="execution(* com.aat.dxfy.*.service..*.*(..))" />
+		<aop:advisor advice-ref="txAdviceDxfy" pointcut-ref="serviceOperationDxfy" />
+	</aop:config>
+
+	<!-- 注解方式的事务拦截器 开启 -->
+	<tx:annotation-driven transaction-manager="transactionManagerDxfy" proxy-target-class="true" />
+	<!-- end -->
+	
+	
+
+</beans>
+
+

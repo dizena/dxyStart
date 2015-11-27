@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aat.dxfy.base.dao.RoleResDao">
+
+	<!-- 表 -->
+	<sql id="Table_Name">
+		base_roleres
+	</sql>
+	<!-- 字段 -->
+	<sql id="Base_Column_List">
+		id,roleId,ressId
+	</sql>
+
+	<!-- 新增 -->
+	<insert id="addBean" parameterType="java.util.Map">
+		INSERT INTO
+		<include refid="Table_Name" />
+		(
+		<include refid="Base_Column_List" />
+		) VALUES
+		(#{id},#{roleId},#{ressId})
+	</insert>
+
+
+	<!-- 删除 -->
+	<delete id="deleteBean" parameterType="java.lang.String">
+		DELETE FROM
+		<include refid="Table_Name" />
+		WHERE roleId = #{roleId}
+	</delete>
+
+	<!-- 查询单个 -->
+	<select id="queryResIds" parameterType="java.lang.String" resultType="java.lang.String">
+		SELECT ressId FROM 
+		<include refid="Table_Name" />
+		WHERE roleId = #{roleId}
+	</select>
+
+
+
+</mapper>
