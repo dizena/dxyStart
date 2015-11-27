@@ -5,10 +5,40 @@ dxyStart介绍
 
    http://www.dizena.com/docapi
    
-   
-2，技术汇总
+2，功能介绍
 
-2-1、后端
+   基础包含：用户注册、登录、QQ、SINA用户登录；
+   
+             角色权限管理；
+             
+             URL权限管理；
+             
+             在线用户管理；
+             
+             登录会话数量设置；
+             
+   安全方面：
+   
+            防止XSS注入；
+            
+            自定义无规则加密解密；
+            
+            CRS安全；
+            
+   规范文档：
+   
+            数据库建模规范；
+            
+            代码规范说明；
+            
+            注释规范说明；
+            
+            前端设计规范；
+             
+   
+3，技术汇总
+
+    后端
 
     核心框架：Spring Framework
     
@@ -27,7 +57,7 @@ dxyStart介绍
     日志管理：logback
     
 
-2-2、前端Flatlab
+    前端Flatlab
 
     JS框架：jQuery
     
@@ -41,7 +71,7 @@ dxyStart介绍
     
     日期控件： bootstrap-datetimepicker
 
-2-3、平台
+    平台
 
     服务器中间件：支持应用服务器中间件 有Tomcat、Glassfish、Jboss、WebLogic、WebSphere。
     
