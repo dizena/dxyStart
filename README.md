@@ -5,6 +5,8 @@ dxyStart介绍
 
    http://www.dizena.com/docapi
    
+   本地部署：admin/123123 超级用户；
+   
 2，功能介绍
 
    基础包含：用户注册、登录、QQ、SINA用户登录；
