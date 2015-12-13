@@ -209,11 +209,6 @@ CREATE TABLE `base_user` (
 -- Records of base_user
 -- ----------------------------
 INSERT INTO `base_user` VALUES ('1', 'admin', '937a9d3997245b24355295134bf49742', 'RPNODI0NjkxMjMzMTEyNDA5Nzg23KB', 'master', '*', '0', '2015-07-09 00:00:00', '淡香雅', '男', '/upload/image/20150820/20150820124756_342.jpeg', null, null, null, '1066031245@qq.com', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
-INSERT INTO `base_user` VALUES ('1583132733', '1583132733', 'f26b71728e9295761115594d945f1b15', 'MAtODUxNzA0MzMyNzEzODMxNTM5ODA1MQ==0QT', 'master', 'none', '0', '2015-09-08 16:44:49', 'iActivity', '男', 'http://tp2.sinaimg.cn/1583132733/50/40006376822/1', '北京 海淀区', 'sina', '2.00vIfIjB0lhtmqc7f340155bp_IXNE', null, null, null, null, null, null, null, null, null, null, '2015-10-09 15:02:55', null, null, null, null, null, null, null, null);
-INSERT INTO `base_user` VALUES ('1899221351', '1899221351', '347dd03b03e325a8972a86f85dfb8d97', 'TsgODkwNzM0NTExMzIyOTkxODgyOTU3Mw==N04', 'user', 'none', '0', '2015-09-09 15:23:23', '苏良波90', '男', 'http://tp4.sinaimg.cn/1899221351/50/5678975397/1', '北京 海淀区', 'sina', '2.008OwWEC0lhtmqe179027bf2M82RxD', null, null, null, null, null, null, null, null, null, null, '2015-09-09 15:23:23', null, null, null, null, null, null, null, null);
-INSERT INTO `base_user` VALUES ('AE3DC3182FE9E7751C02948E38B1FEC4', 'xingle', '4f8112696f3a8a2facab3cedddd6c362', 'KINMDE4NjU5QzRGRUIxMzg4RTk0MDIxQzc1RTdFOTJGMThDMzNEQUU4OTIwNjc=Q1y', 'master', 'none', '0', '2015-09-09 13:50:23', '新歌 ~_~', '男', 'http://q.qlogo.cn/qqapp/101241096/AE3DC3182FE9E7751C02948E38B1FEC4/100', '北京,海淀', 'qq', 'B0201C4AA820F1C199B3CA714D424887', null, null, null, null, null, null, null, null, null, null, '2015-10-20 15:24:14', null, null, null, null, null, null, null, null);
-INSERT INTO `base_user` VALUES ('LYM144HNC108WTS876DJV3656929', 'dizena', '937a9d3997245b24355295134bf49742', 'n68ODkwMzI0MjMzMTEyNzM5MDg0cPQ', 'user', 'none', '0', '2015-09-01 14:26:03', 'dizena', '男', '/upload/image/20150820/20150820124010_728.jpg', '', 'dxy', null, 'admin@dizena.com', null, null, null, null, null, null, null, null, null, '2015-09-01 14:26:03', null, null, null, null, null, null, null, null);
-
 -- ----------------------------
 -- Table structure for base_user1info
 -- ----------------------------
