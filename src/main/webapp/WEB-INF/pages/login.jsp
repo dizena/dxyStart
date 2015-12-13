@@ -47,11 +47,12 @@
 				</form>
 				
 				<div class="registration" style="text-align: center;">
+					
+					<!-- 
 					<a class="" href="${path}/sinaloginPage"><i class="fa fa-weibo"></i>微博登录</a>
 						&nbsp;
 					<a class="" href="javascript:;" id="qqLoginBtn"><i class="fa  fa-qq"></i>QQ登录</a>
 						&nbsp;
-					<!-- 
 					<a class="" href="${path}/qqloginPage"><i class="fa  fa-qq"></i>QQ</a>
 					&nbsp;
 					<a class="" href=""><i class="fa fa-weixin"></i>微信</a>
